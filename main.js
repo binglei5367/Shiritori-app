@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.101.0/http/server.ts";
+import { serveFile } from "https://deno.land/std@0.101.0/http/file_server.ts";
 
 let previousWord = '';
 let usedWords = [];
@@ -10,7 +11,7 @@ const handler = async (request) => {
   } else if (url.pathname === "/reset" && request.method === "POST") {
     return handleReset();
   } else if (url.pathname.startsWith("/public")) {
-    return await serveFile(request, url.pathname);
+    return await serveFile(request, `.${url.pathname}`);
   }
   return new Response("Not Found", { status: 404 });
 };
@@ -41,35 +42,6 @@ function handleReset() {
   previousWord = '';
   usedWords = [];
   return new Response(JSON.stringify({ message: 'リセットしました。' }), { status: 200 });
-}
-
-async function serveFile(request, path) {
-  const filePath = `.${path}`;
-  try {
-    const content = await Deno.readFile(filePath);
-    const mime = getMimeType(filePath);
-    return new Response(content, {
-      headers: { "content-type": mime }
-    });
-  } catch (error) {
-    return new Response("Not Found", { status: 404 });
-  }
-}
-
-function getMimeType(filePath) {
-  const extension = filePath.split('.').pop();
-  const mimeTypes = {
-    html: "text/html",
-    css: "text/css",
-    js: "application/javascript",
-    json: "application/json",
-    png: "image/png",
-    jpg: "image/jpeg",
-    jpeg: "image/jpeg",
-    gif: "image/gif",
-    svg: "image/svg+xml",
-  };
-  return mimeTypes[extension] || "application/octet-stream";
 }
 
 serve(handler);
