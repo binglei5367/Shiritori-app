@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>しりとりアプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>しりとりアプリ</h1>
+        <div id="game">
+            <p id="previous-word">直前の単語: <span id="last-word"></span></p>
+            <input type="text" id="word-input" placeholder="単語を入力">
+            <button id="submit-button">送信</button>
+            <button id="reset-button">リセット</button>
+            <p id="message"></p>
+            <p id="used-words">使用した単語: <span id="words-list"></span></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
