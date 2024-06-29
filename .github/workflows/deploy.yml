@@ -10,16 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Deno
-      uses: denoland/setup-deno@v1
-      with:
-        deno-version: v1.x
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
-    - name: Deploy to Deno Deploy
-      run: |
-        deno deploy --project=mizuumi-shiritori-a-78 --entrypoint=main.js
-      env:
-        DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
+      - name: Install deployctl
+        run: |
+          deno install -A -f --unstable https://deno.land/x/deploy/deployctl.ts
+
+      - name: Cache Deno dependencies
+        run: deno cache main.js
+
+      - name: Deploy to Deno
+        env:
+          DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
+        run: |
+          deployctl deploy --project=mizuumi-shiritori-a-78 main.js
