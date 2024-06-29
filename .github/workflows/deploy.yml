@@ -20,6 +20,6 @@ jobs:
 
     - name: Deploy to Deno Deploy
       run: |
-        deno deploy --project=<mizuumi-shiritori-a-78> --entrypoint=main.js
+        deno deploy --project=<Shiritori-app> --entrypoint=main.js
       env:
         DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
