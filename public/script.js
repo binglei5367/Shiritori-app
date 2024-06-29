@@ -6,11 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastWordElement = document.getElementById('last-word');
     const wordsListElement = document.getElementById('words-list');
 
+    // Handle word submission
     submitButton.addEventListener('click', async () => {
         const word = wordInput.value.trim();
 
         if (!word) {
-            messageElement.textContent = '単語を入力してください。';
+            messageElement.textContent = 'Please enter a word.';
             return;
         }
 
@@ -27,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 messageElement.textContent = '';
-                lastWordElement.textContent = result.previousWord;
-                wordsListElement.textContent = result.usedWords.join(', ');
+                lastWordElement.textContent = result.lastWord;
+                wordsListElement.textContent = result.wordsUsed.join(', ');
                 wordInput.value = '';
             } else {
                 messageElement.textContent = result.message;
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Handle game reset
     resetButton.addEventListener('click', async () => {
         try {
             const response = await fetch('/reset', {
