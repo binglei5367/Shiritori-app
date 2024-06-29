@@ -12,8 +12,12 @@ const handler = async (request) => {
     return handleReset();
   } else if (url.pathname === "/") {
     return await serveFile(request, "./public/index.html");
-  } else if (url.pathname.startsWith("/public")) {
+  } else if (url.pathname.startsWith("/public/")) {
     return await serveFile(request, `.${url.pathname}`);
+  } else if (url.pathname.endsWith('.css')) {
+    return await serveFile(request, `./public${url.pathname}`);
+  } else if (url.pathname.endsWith('.js')) {
+    return await serveFile(request, `./public${url.pathname}`);
   }
   return new Response("Not Found", { status: 404 });
 };
