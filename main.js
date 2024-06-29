@@ -1,5 +1,5 @@
-import { serve } from "https://deno.land/std@0.101.0/http/server.ts";
-import { serveFile } from "https://deno.land/std@0.101.0/http/file_server.ts";
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { serveFile } from "https://deno.land/std@0.224.0/http/file_server.ts";
 
 let previousWord = '';
 let usedWords = [];
@@ -10,6 +10,8 @@ const handler = async (request) => {
     return await handleWord(request);
   } else if (url.pathname === "/reset" && request.method === "POST") {
     return handleReset();
+  } else if (url.pathname === "/") {
+    return await serveFile(request, "./public/index.html");
   } else if (url.pathname.startsWith("/public")) {
     return await serveFile(request, `.${url.pathname}`);
   }
@@ -44,4 +46,4 @@ function handleReset() {
   return new Response(JSON.stringify({ message: 'リセットしました。' }), { status: 200 });
 }
 
-serve(handler);
+serve(handler, { port: 8000 });
